@@ -136,10 +136,10 @@ ssize_t stred_write(struct file *pfile, const char __user *buffer, size_t length
 			sscanf(buff, "%*c%100[^\n]s", unos);
 			strcpy(upis, unos+1);
 
-			while(pos + strlen(upis) > 100)
+			while(pos + strlen(upis) > 99)
 			{
 				up(&sem);
-				if(wait_event_interruptible(appendQ, (pos + strlen(upis) <= 100)))
+				if(wait_event_interruptible(appendQ, (pos + strlen(upis) <= 99)))
 					return -ERESTARTSYS;
 				if(down_interruptible(&sem))
 					return -ERESTARTSYS;
@@ -194,7 +194,6 @@ ssize_t stred_write(struct file *pfile, const char __user *buffer, size_t length
         {
                 printk(KERN_WARNING "Pogresan format!\n");
         }
-	printk(KERN_INFO "Provera... pozicija: %d\n", pos);
 
 	up(&sem);
 
